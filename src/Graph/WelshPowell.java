@@ -4,13 +4,13 @@ import java.util.*;
 
 public class WelshPowell {
 
-    public void kColoracao(Grafo grafo) {
-        ArrayList<Integer> sorted = new ArrayList<Integer>(sort(grafo));
-        System.out.println(sorted.toString());
+    public int kColoracao(Grafo grafo) {
+        ArrayList<Integer> notPainted = new ArrayList<Integer>(sort(grafo));
+        System.out.println(notPainted.toString());
         int color = 0;
-        while (!sorted.isEmpty()) {
-            for (int j = 0; j < sorted.size(); j++) {
-                Vertice vertice = grafo.getVertice(sorted.get(0));
+        while (!notPainted.isEmpty()) {
+            for (int j = 0; j < notPainted.size(); j++) {
+                Vertice vertice = grafo.getVertice(notPainted.get(j));
                 LinkedList<Integer> adj = vertice.getAdj();
                 boolean shouldPaint = true;
                 for (int k = 0; k < adj.size(); k++) {
@@ -22,19 +22,16 @@ public class WelshPowell {
                 }
                 if (shouldPaint) {
                     vertice.setColor(color);
-                    sorted.remove(j);
+                    notPainted.remove(j);
+                    j--;
                 }
             }
             color++;
         }
-
+        return color;
     }
 
-    public void welshPowel(Grafo grafo, ArrayList<Integer> sorted) {
-
-    }
-
-    public List<Integer> sort(Grafo grafo) { // 2 3 2 1 (1,0,2,3)
+    public List<Integer> sort(Grafo grafo) {
         List<Integer> grau = new ArrayList<>();
         for (int i = 0; i < grafo.numVertices; i++) {
             grau.add(grafo.vertices[i].getAdj().size());
